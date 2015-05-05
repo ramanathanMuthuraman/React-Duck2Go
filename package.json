@@ -1,0 +1,40 @@
+{
+  "name": "react-intro",
+  "version": "1.0.0",
+  "description": "react beginner",
+  "main": "",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "react",
+    "intro"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^3.3.4",
+    "express": "^4.12.3",
+    "express-handlebars": "^2.0.1",
+    "node-jsx": "^0.13.2",
+    "react": "^0.13.1",
+    "react-bootstrap": "^0.21.0",
+    "react-router": "^0.13.2",
+    "serve-favicon": "^2.2.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.6.4",
+    "browserify": "^9.0.7",
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "pm2": "^0.12.13",
+    "gulp-less": "^3.0.3",
+    "reactify": "^1.1.0",
+    "run-sequence": "^1.1.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
