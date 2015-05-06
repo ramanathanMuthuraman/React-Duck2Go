@@ -19,11 +19,15 @@ var Button = require('react-bootstrap').Button;
     		this.returnInput().focus();
     
     },
+    clearInput: function(){
+      this.returnInput().val("");
+      this.props.updateFilter("");
+    },
     render:function(){
 
       return    <Input onChange={this.handleFilterChange} type='text' ref="searchItem" buttonAfter= { 
-      	<Button onClick={this.handleFilterChange}  bsStyle='success'>
-      	<Glyphicon glyph='search' />
+      	<Button onClick = {this.clearInput} bsStyle='success'>
+      	<Glyphicon glyph='remove' />
       	</Button>
       } />
     }

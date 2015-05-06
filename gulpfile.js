@@ -38,6 +38,11 @@ gulp.task('fonts', function() {
     .pipe(gulp.dest('build/fonts/'));
 });
 
+gulp.task('images', function() {
+   return gulp.src('./public/images/*')
+    .pipe(gulp.dest('build/images/'));
+});
+
 gulp.task('clean', function() {
     return del.sync(['./build/**']);
 });
@@ -50,21 +55,21 @@ gulp.task('html',function() {
 
 //server side rendering task
 gulp.task('default',function () { 
-   runSequence('clean',['js'],'less','fonts','browser-sync');
+   runSequence('clean',['js'],'less','images','fonts','browser-sync');
    gulp.watch('./public/**/*.js',['js']);
    gulp.watch('./public/**/*.less',['less']); 
    gulp.watch('./public/index.html',['html']);
 });
 //client side rendering task
 gulp.task('client',function () { 
-   runSequence('clean',['js'],'less','fonts','html','browser-sync');
+   runSequence('clean',['js'],'less','images','fonts','html','browser-sync');
    gulp.watch('./public/**/*.js',['js']);
    gulp.watch('./public/**/*.less',['less']); 
    gulp.watch('./public/index.html',['html']);
 });
 //run server indefinitely task
 gulp.task('build',function () { 
-   runSequence('clean',['js'],'less','fonts','pm2');
+   runSequence('clean',['js'],'less','images','fonts','pm2');
    gulp.watch('./public/**/*.js',['js']);
    gulp.watch('./public/**/*.less',['less']); 
 });

@@ -9,7 +9,7 @@ var config = require('./config')
 var app = express();
 app.use(express.static(__dirname + '/build'));
 app.set('views', __dirname + '/views');
-app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
 app.engine('hbs', exphbs({defaultLayout: 'main',extname: ".hbs", layoutsDir: __dirname + '/views/layouts'}));
 app.set('view engine', 'hbs');
 
