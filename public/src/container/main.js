@@ -12,14 +12,18 @@ var Button = require('react-bootstrap').Button;
  		var that = this;
  		var duck2go = encodeURIComponent("http://api.duckduckgo.com/?q="+value+"&format=json");
  		var yql = 'https://query.yahooapis.com/v1/public/yql?q=select * from json where url = "'+duck2go+'"&format=json&callback=';
+ 		that.abortAllRequests();
  		if(value){
  			
 		 		  $.ajax({
 		 		  		dataType : 'json',
 		 		 		method:"GET",
 		 		 		url:yql,
+		 		 		beforeSend: function(jqXHR) {
+        					that.xhrPool.push(jqXHR);
+    					},
 		 		 		error:function (e) {
-		 		 			console.log("error");
+		 		 			
 		 		 		},
 			      		success:function (data) {
 			      			data = data.query.results.json;
@@ -38,6 +42,11 @@ var Button = require('react-bootstrap').Button;
 			      			
 			      			
 					}
+					}).done(function(response,status,jqXHR){
+						 var index = that.xhrPool.indexOf(jqXHR);
+					        if (index > -1) {
+					            that.xhrPool.splice(index, 1);
+					        }
 					})
 
 				
@@ -45,12 +54,23 @@ var Button = require('react-bootstrap').Button;
  		else{
  		
  			 that.renderRecords([]);
- 		}
+ 			}
     	},
-    	
-    	renderRecords: function(data){
+    	componentDidMount: function(){
 
-    		
+    		this.xhrPool = [];
+    
+    	},
+    	abortAllRequests:function(){
+
+    		for(var i=0;i<this.xhrPool.length;i++){
+        		this.xhrPool[i].abort();
+    		}
+    		this.xhrPool = [];
+
+    	},
+    	renderRecords: function(data){
+		
     		React.render(<Records items={data} />, document.querySelector(".contents"));
 
     	},

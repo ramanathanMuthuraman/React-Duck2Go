@@ -5,11 +5,24 @@ var $ = require('jquery');
  	
     render:function(){
     var icon = this.props.datum.Icon ? this.props.datum.Icon.URL : "";
-    var title = this.props.datum.Result || "";
-    var text = this.props.datum.Text || "";
+    var content = this.props.datum.Result || "";
+    var title="",text="";
+    if(content){
+        var start = content.indexOf(">");
+        var end = content.lastIndexOf(">");
+        if(start > -1 && end >-1){
+          // subtracting 3 to remove the anchor tag markup
+          title = content.substring(++start,end-3);
+          text =  content.substring(++end);
+          //do not render the DOM, if there is no description
+          if(!text){
+            return;
+          }
+        }
+    }
       return   <div className="tile__body has-foot ">
       				<img src={icon} className="tile__icon" />
-				    <h5 className="tile__title" dangerouslySetInnerHTML= {{__html:title}}></h5>
+				    <div><h2 className="tile__title" dangerouslySetInnerHTML= {{__html:title}}></h2></div>
 				    <div className="tile__content">{text}</div>
 				</div>
     }
