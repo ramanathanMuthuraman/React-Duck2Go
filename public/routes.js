@@ -8,11 +8,12 @@ var Link = Router.Link;
 var RouteHandler = Router.RouteHandler;
 var App = require('./src/main');
 
-var Well =  require('./src/well/main');
+var Container =  require('./src/container/main');
  var routes = module.exports =  (
   <Route name="app" path="/" handler={App}>
-     <Route name="well" handler={Well}/>
-    <DefaultRoute handler={Well}/>
+     <Route name="container" handler={Container}/>
+    <DefaultRoute handler={Container}/>
   </Route>
 );
+
 
