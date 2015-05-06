@@ -72,7 +72,13 @@ var Button = require('react-bootstrap').Button;
 	    render:function(){
 	      return     <div>
 	      			 <Well className = "container-fluid">
-	      				<Col xs={12} md={12} >  <Search type='text'  updateFilter={this.handleFilterUpdate}  /></Col>
+	      			 	<Col xs={1} md={1} className="thumbnail">
+	      			 	  <img className="logo" src = "images/ddg.jpg" />
+	      			 	</Col>
+	      				<Col className="search" xs={11} md={11} >  
+	      				<Search type='text'  updateFilter={this.handleFilterUpdate}  />
+	      				<small>* Search DuckDuckGo</small>
+	      				</Col>
 	      			 </Well>
 	      			 <div className="contents"></div>
 	      			 </div>
