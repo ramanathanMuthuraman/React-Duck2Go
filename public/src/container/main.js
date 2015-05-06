@@ -10,29 +10,35 @@ var Button = require('react-bootstrap').Button;
  module.exports = React.createClass({
  	handleFilterUpdate: function(value){
  		var that = this;
- 		var duck2go = '"http://api.duckduckgo.com/?q='+value+'&format=json"';
- 		var yql = "https://query.yahooapis.com/v1/public/yql?q='select * from json where url = "+ duck2go+"&format=json&callback='";
+ 		var duck2go = encodeURIComponent("http://api.duckduckgo.com/?q="+value+"&format=json");
+ 		var yql = 'https://query.yahooapis.com/v1/public/yql?q=select * from json where url = "'+duck2go+'"&format=json&callback=';
  		if(value){
+ 			
 		 		  $.ajax({
+		 		  		dataType : 'json',
 		 		 		method:"GET",
 		 		 		url:yql,
-		 		 		dataType:"json"
-			      		}).done(function (data) {
-			      			
+		 		 		error:function (e) {
+		 		 			console.log("error");
+		 		 		},
+			      		success:function (data) {
+			      			data = data.query.results.json;
 			      			var response = data.RelatedTopics;
-			      			for(var i=0;i<data.RelatedTopics.length;i++){
-			      				if(data.RelatedTopics[i].Topics){
-			      					for(var j=0;j<data.RelatedTopics[i].Topics.length;j++){
-			      						 response.push(data.RelatedTopics[i].Topics[j])
-			      					}
-					      			
-					      		}
+			      			if(data.RelatedTopics){
+				      			for(var i=0;i<data.RelatedTopics.length;i++){
+				      				if(data.RelatedTopics[i].Topics){
+				      					for(var j=0;j<data.RelatedTopics[i].Topics.length;j++){
+				      						 response.push(data.RelatedTopics[i].Topics[j])
+				      					}
+						      			
+						      		}
+				      			}
 			      			}
 			      			 that.renderRecords(response);
 			      			
-					}).fail(function(f){
-           				console.log("error");
-                	}); 
+			      			
+					}
+					})
 
 				
  		}
