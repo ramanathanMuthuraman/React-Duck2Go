@@ -6,7 +6,7 @@ var $ = require('jquery');
     render:function(){
     var icon = this.props.datum.Icon ? this.props.datum.Icon.URL : "";
     var content = this.props.datum.Result || "";
-    var title="",text="";
+    var title="",text="",href = this.props.datum.FirstURL || ""
     if(content){
         var start = content.indexOf(">");
         var end = content.lastIndexOf(">");
@@ -20,9 +20,13 @@ var $ = require('jquery');
           }
         }
     }
+    if(href){
+      href = "https://en.wikipedia.org/wiki"+href.substring(href.lastIndexOf("/"));
+    }
+
       return   <div className="tile__body has-foot ">
       				<img src={icon} className="tile__icon" />
-				    <div><h2 className="tile__title" dangerouslySetInnerHTML= {{__html:title}}></h2></div>
+				    <div><a href={href}><h2 className="tile__title">{title}</h2></a></div>
 				    <div className="tile__content">{text}</div>
 				</div>
     }
