@@ -16,7 +16,7 @@ var $ = require('jquery');
           text =  content.substring(++end);
           //do not render the DOM, if there is no description
           if(!text){
-            return;
+            return <div></div>;
           }
         }
     }

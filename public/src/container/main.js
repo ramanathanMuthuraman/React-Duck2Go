@@ -21,11 +21,8 @@ var Button = require('react-bootstrap').Button;
 		 		 		url:yql,
 		 		 		beforeSend: function(jqXHR) {
         					that.xhrPool.push(jqXHR);
-    					},
-		 		 		error:function (e) {
-		 		 			
-		 		 		},
-			      		success:function (data) {
+    					}
+			      		}).done(function (data,status,jqXHR) {
 			      			data = data.query.results.json;
 			      			var response = data.RelatedTopics;
 			      			if(data.RelatedTopics){
@@ -39,15 +36,13 @@ var Button = require('react-bootstrap').Button;
 				      			}
 			      			}
 			      			 that.renderRecords(response);
-			      			
-			      			
-					}
-					}).done(function(response,status,jqXHR){
-						 var index = that.xhrPool.indexOf(jqXHR);
+			      			 var index = that.xhrPool.indexOf(jqXHR);
 					        if (index > -1) {
 					            that.xhrPool.splice(index, 1);
 					        }
-					})
+			      			
+			      			
+					});
 
 				
  		}
@@ -70,9 +65,9 @@ var Button = require('react-bootstrap').Button;
 
     	},
     	renderRecords: function(data){
-		
-    		React.render(<Records items={data} />, document.querySelector(".contents"));
-
+				if(data)
+    			React.render(<Records items={data} />, document.querySelector(".contents"));
+    		
     	},
 	    render:function(){
 	      return     <div>

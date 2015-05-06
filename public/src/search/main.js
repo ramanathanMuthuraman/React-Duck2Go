@@ -5,12 +5,20 @@ var Input = require('react-bootstrap').Input;
 var Glyphicon = require('react-bootstrap').Glyphicon;
 var Button = require('react-bootstrap').Button;
  module.exports = React.createClass({
- 	handleFilterChange: function(){
+ 	returnInput:function(){
  		var dom = React.findDOMNode(this.refs.searchItem);
- 		var value = $("[data-reactid='"+dom.getAttribute("data-reactid")+"']")
- 						.find("input.form-control").val();
+ 		return $("[data-reactid='"+dom.getAttribute("data-reactid")+"']").find("input.form-control");
+ 	},
+ 	handleFilterChange: function(){
+ 		
+ 		var value = this.returnInput().val();
  		this.props.updateFilter(value);
  	},
+ 	componentDidMount: function(){
+
+    		this.returnInput().focus();
+    
+    },
     render:function(){
 
       return    <Input onChange={this.handleFilterChange} type='text' ref="searchItem" buttonAfter= { 

@@ -5,11 +5,15 @@ var Record =  require('../record/main');
  module.exports = React.createClass({
  	
     render:function(){
-    	var records = this.props.items.map(function (data,i) {
-	      return <Record key={i} datum={data} />;
-	    });
-      return   <div className="records">
-				   {records}
+      return   (
+      			<div className="records">
+				   {this.props.items.map(function (data,i) {
+	      				return (
+	      							<Record key={i} datum={data} />
+	      						)
+	    			
+				},this)}
 				</div>
+				)
     }
   });
