@@ -26,7 +26,7 @@ var Button = require('react-bootstrap').Button;
     render:function(){
 
       return    <Input onChange={this.handleFilterChange} type='text' ref="searchItem" buttonAfter= { 
-      	<Button onClick = {this.clearInput} bsStyle='success'>
+      	<Button onClick = {this.clearInput} bsStyle='danger'>
       	<Glyphicon glyph='remove' />
       	</Button>
       } />
