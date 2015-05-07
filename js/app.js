@@ -38494,42 +38494,58 @@ var Col = require('react-bootstrap').Col;
 var Button = require('react-bootstrap').Button;
 
  module.exports = React.createClass({displayName: "exports",
+ 	parseResponse: function(data,status,jqXHR){
+
+ 		data = data.query.results.json;
+		var response = data.RelatedTopics;
+		if(data.RelatedTopics){
+			for(var i=0;i<data.RelatedTopics.length;i++){
+				if(data.RelatedTopics[i].Topics){
+					for(var j=0;j<data.RelatedTopics[i].Topics.length;j++){
+						 response.push(data.RelatedTopics[i].Topics[j])
+					}
+      			
+      		}
+			}
+		}
+		 this.renderRecords(response);
+		 if(jqXHR){
+			 var index = this.requestPool.indexOf(jqXHR);
+			 if (index > -1) {
+				this.requestPool.splice(index, 1);
+			 }
+		}
+ 	},
  	handleFilterUpdate: function(value){
  		var that = this;
  		var duck2go = encodeURIComponent("http://api.duckduckgo.com/?q="+value+"&format=json");
- 		var yql = 'https://query.yahooapis.com/v1/public/yql?q=select * from json where url = "'+duck2go+'"&format=json&callback=';
+ 		var yql = 'http://query.yahooapis.com/v1/public/yql?q=select * from json where url = "'+duck2go+'"&format=json&callback=';
  		that.abortAllRequests();
  		if(value){
- 			
-		 		  $.ajax({
-		 		  		dataType : 'json',
-		 		 		method:"GET",
-		 		 		url:yql,
+ 				//http://stackoverflow.com/questions/5087549/access-denied-to-jquery-script-on-ie
+ 				if (that.IsMSIE && window.XDomainRequest) {
+ 					 	var xdr = new XDomainRequest();
+			            xdr.open("get", yql);
+			            xdr.onload = function() {
+ 
+			            	that.parseResponse(JSON.parse(xdr.responseText),"status",xdr)
+			              
+			            };
+			            that.requestPool.push(xdr);
+			            xdr.send();
+        			}
+        			else
+        			{
+        				$.ajax({
+			 		  		dataType : 'json',
+			 		  		method:"GET",
+			 		 		url:yql,
 		 		 		beforeSend: function(jqXHR) {
-        					that.xhrPool.push(jqXHR);
+        					that.requestPool.push(jqXHR);
     					}
-			      		}).done(function (data,status,jqXHR) {
-			      			data = data.query.results.json;
-			      			var response = data.RelatedTopics;
-			      			if(data.RelatedTopics){
-				      			for(var i=0;i<data.RelatedTopics.length;i++){
-				      				if(data.RelatedTopics[i].Topics){
-				      					for(var j=0;j<data.RelatedTopics[i].Topics.length;j++){
-				      						 response.push(data.RelatedTopics[i].Topics[j])
-				      					}
-						      			
-						      		}
-				      			}
-			      			}
-			      			 that.renderRecords(response);
-			      			 var index = that.xhrPool.indexOf(jqXHR);
-					        if (index > -1) {
-					            that.xhrPool.splice(index, 1);
-					        }
-			      			
-			      			
-					});
+			      		}).done(that.parseResponse);
 
+        			}
 				
  		}
  		else{
@@ -38539,15 +38555,17 @@ var Button = require('react-bootstrap').Button;
     	},
     	componentDidMount: function(){
 
-    		this.xhrPool = [];
-    
+    		this.requestPool = [];
+    		var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+    		this.IsMSIE = (msie>-1)?true:false;
     	},
     	abortAllRequests:function(){
 
-    		for(var i=0;i<this.xhrPool.length;i++){
-        		this.xhrPool[i].abort();
+    		for(var i=0;i<this.requestPool.length;i++){
+        		this.requestPool[i].abort();
     		}
-    		this.xhrPool = [];
+    		this.requestPool = [];
 
     	},
     	renderRecords: function(data){
@@ -38566,7 +38584,7 @@ var Button = require('react-bootstrap').Button;
 	      				React.createElement("small", null, "* Search DuckDuckGo")
 	      				)
 	      			 ), 
-	      			 React.createElement("div", {className: "contents"})
+	      			 React.createElement("div", {className: "results-area"}, React.createElement("div", {className: "contents"}))
 	      			 )
 	    }
   });
@@ -38688,7 +38706,7 @@ var Button = require('react-bootstrap').Button;
     render:function(){
 
       return    React.createElement(Input, {onChange: this.handleFilterChange, type: "text", ref: "searchItem", buttonAfter:  
-      	React.createElement(Button, {onClick: this.clearInput, bsStyle: "success"}, 
+      	React.createElement(Button, {onClick: this.clearInput, bsStyle: "danger"}, 
       	React.createElement(Glyphicon, {glyph: "remove"})
       	)
       })
