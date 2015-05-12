@@ -29,13 +29,16 @@ var Col = require('react-bootstrap').Col;
       href = "https://en.wikipedia.org/wiki"+href.substring(href.lastIndexOf("/"));
     }
 
-      return   <Well className="tile__body has-foot col-sm-5 col-md-5">
-      			
-				    <div className="col-sm-8 col-md-8">
-            <a href={href} target="blank"><h2 className="tile__title">{title}</h2></a>
-				    <div className="tile__content">{text}</div>
-            </div>
-              <p className="col-sm-4 col-md-4 thumbnail"><img src={icon} className="tile__icon" /></p>
-				</Well>
+      return   <Col sm={12} md={5} className="record">   
+                <Well className="tile__body">
+            			<Col sm={8} md={8}>   
+                  <a href={href} target="blank"><h2 className="tile__title">{title}</h2></a>
+      				    <div className="tile__content">{text}</div>
+                  </Col>
+                  <Col sm={4} md={4} className="thumbnail">   
+                  <img src={icon} className="tile__icon" />
+                  </Col>
+				        </Well>
+              </Col>
     }
   });
