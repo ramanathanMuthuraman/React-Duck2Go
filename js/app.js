@@ -38688,10 +38688,12 @@ var Record =  require('../record/main');
     		
     			return  React.createElement(Col, {mdOffset: 3, md: 6}, 
     			React.createElement(Well, {className: "no_results"}, 
+                React.createElement(Col, {sm: 12, md: 8}, 
+                React.createElement("h2", {className: "no_response_txt"}, "No results found")
+                ), 
     			React.createElement(Col, {sm: 4, md: 4}, 
     				React.createElement("img", {className: "no_response_img", src: "images/No_result.jpg"})
-    			), 
-    			React.createElement(Col, {sm: 12, md: 8}, React.createElement("h2", {className: "no_response_txt"}, "No results found"))
+    			)
     			)
     			)
     		
