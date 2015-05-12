@@ -36,7 +36,7 @@ var Button = require('react-bootstrap').Button;
 
  	},
  	networkErrorHandler: function(xhr){
- 		 if (xhr && xhr.statusText !== 'abort') {
+ 		 if (xhr && xhr.status === 0 && xhr.statusText !== 'abort') {
  			alert("Network Error");
  		}
  	},

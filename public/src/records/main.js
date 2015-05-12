@@ -12,10 +12,12 @@ var Record =  require('../record/main');
     		
     			return  <Col mdOffset={3}  md={6}>  
     			<Well className="no_results">
+                <Col sm={12} md={8} >
+                <h2 className="no_response_txt">No results found</h2>
+                </Col>
     			<Col sm={4} md={4} >
     				<img className="no_response_img" src ="images/No_result.jpg" />
     			</Col>
-    			<Col sm={12} md={8} ><h2 className="no_response_txt">No results found</h2></Col>
     			</Well>
     			</Col>
     		
