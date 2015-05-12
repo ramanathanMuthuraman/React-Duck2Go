@@ -10,15 +10,19 @@ var Col = require('react-bootstrap').Col;
     var content = this.props.datum.Result || "";
     var title="",text="",href = this.props.datum.FirstURL || ""
     if(content){
-        var start = content.indexOf(">");
-        var end = content.lastIndexOf(">");
-        if(start > -1 && end >-1){
+        var start = content.indexOf(">")+1;
+        //to get the second occurence
+        var end = start+content.substring(start).indexOf(">");
+        if(start > 0 && end >0){
           // subtracting 3 to remove the anchor tag markup
-          title = content.substring(++start,end-3);
+          title = content.substring(start,end-3);
           text =  content.substring(++end);
           //do not render the DOM, if there is no description
           if(!text){
-            return <div></div>;
+            if(!this.props.datum.Text){
+              return <div></div>;
+            }
+            text = this.props.datum.Text;
           }
         }
     }
@@ -33,7 +37,7 @@ var Col = require('react-bootstrap').Col;
                 <Well className="tile__body">
             			<Col sm={8} md={8}>   
                   <a href={href} target="blank"><h2 className="tile__title">{title}</h2></a>
-      				    <div className="tile__content">{text}</div>
+      				    <div className="tile__content" dangerouslySetInnerHTML={{__html: text}}></div>
                   </Col>
                   <Col sm={4} md={4} className="thumbnail">   
                   <img src={icon} className="tile__icon" />
