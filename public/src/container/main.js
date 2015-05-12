@@ -64,7 +64,7 @@ var Button = require('react-bootstrap').Button;
  		}
  		else{
  		
- 			 that.renderRecords([]);
+ 			 that.renderRecords([{reset:true}]);
  			}
     	},
     	componentDidMount: function(){
@@ -83,7 +83,7 @@ var Button = require('react-bootstrap').Button;
 
     	},
     	renderRecords: function(data){
-				if(data)
+				//if(data)
     			React.render(<Records items={data} />, document.querySelector(".contents"));
     		
     	},

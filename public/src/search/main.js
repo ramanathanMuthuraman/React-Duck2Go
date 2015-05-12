@@ -22,6 +22,7 @@ var Button = require('react-bootstrap').Button;
     clearInput: function(){
       this.returnInput().val("");
       this.props.updateFilter("");
+      this.returnInput().focus();
     },
     render:function(){
 
