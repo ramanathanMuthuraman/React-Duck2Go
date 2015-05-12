@@ -38518,7 +38518,7 @@ var Button = require('react-bootstrap').Button;
  	},
  	handleFilterUpdate: function(value){
  		var that = this;
- 		var duck2go = encodeURIComponent("http://api.duckduckgo.com/?q="+value+"&format=json");
+ 		var duck2go = encodeURIComponent("http://api.duckduckgo.com/?q="+encodeURIComponent(value)+"&format=json");
  		var yql = 'http://query.yahooapis.com/v1/public/yql?q=select * from json where url = "'+duck2go+'"&format=json&callback=';
  		that.abortAllRequests();
  		if(value){
