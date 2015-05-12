@@ -6568,11 +6568,32 @@ button.close {
   overflow-y: auto;
   height: 500px;
 }
+.no_results {
+  background-color: #f1f1f1;
+  overflow: hidden;
+}
+.no_response_img {
+  display: inline-block;
+  width: 100%;
+  margin: 0 auto;
+}
+.no_response_txt {
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .no_response_txt {
+    margin: 30% auto;
+  }
+}
 .tile__icon {
   height: 75px !important;
 }
-.tile__body {
+.record {
   margin: 2% 4%;
-  height: 240px;
   overflow: hidden;
+}
+@media (min-width: 768px) {
+  .tile__body {
+    height: 240px;
+  }
 }

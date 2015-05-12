@@ -38550,7 +38550,7 @@ var Button = require('react-bootstrap').Button;
  		}
  		else{
  		
- 			 that.renderRecords([]);
+ 			 that.renderRecords([{reset:true}]);
  			}
     	},
     	componentDidMount: function(){
@@ -38569,7 +38569,7 @@ var Button = require('react-bootstrap').Button;
 
     	},
     	renderRecords: function(data){
-				if(data)
+				//if(data)
     			React.render(React.createElement(Records, {items: data}), document.querySelector(".contents"));
     		
     	},
@@ -38584,7 +38584,7 @@ var Button = require('react-bootstrap').Button;
 	      				React.createElement("small", null, "* Search DuckDuckGo")
 	      				)
 	      			 ), 
-	      			 React.createElement("div", {className: "results-area"}, React.createElement("div", {className: "contents"}))
+	      			 React.createElement("div", {className: "contents"})
 	      			 )
 	    }
   });
@@ -38643,14 +38643,17 @@ var Col = require('react-bootstrap').Col;
       href = "https://en.wikipedia.org/wiki"+href.substring(href.lastIndexOf("/"));
     }
 
-      return   React.createElement(Well, {className: "tile__body has-foot col-sm-5 col-md-5"}, 
-      			
-				    React.createElement("div", {className: "col-sm-8 col-md-8"}, 
-            React.createElement("a", {href: href, target: "blank"}, React.createElement("h2", {className: "tile__title"}, title)), 
-				    React.createElement("div", {className: "tile__content"}, text)
-            ), 
-              React.createElement("p", {className: "col-sm-4 col-md-4 thumbnail"}, React.createElement("img", {src: icon, className: "tile__icon"}))
-				)
+      return   React.createElement(Col, {sm: 12, md: 5, className: "record"}, 
+                React.createElement(Well, {className: "tile__body"}, 
+            			React.createElement(Col, {sm: 8, md: 8}, 
+                  React.createElement("a", {href: href, target: "blank"}, React.createElement("h2", {className: "tile__title"}, title)), 
+      				    React.createElement("div", {className: "tile__content"}, text)
+                  ), 
+                  React.createElement(Col, {sm: 4, md: 4, className: "thumbnail"}, 
+                  React.createElement("img", {src: icon, className: "tile__icon"})
+                  )
+				        )
+              )
     }
   });
 
@@ -38659,10 +38662,31 @@ var Col = require('react-bootstrap').Col;
 /** @jsx React.DOM */
 var React = require('react');
 var $ = require('jquery');
+var Well = require('react-bootstrap').Well;
+var Col = require('react-bootstrap').Col;
 var Record =  require('../record/main');
  module.exports = React.createClass({displayName: "exports",
  	
     render:function(){
+    	//when there are no response 
+    	if(!this.props.items || !this.props.items.length){
+    		
+    			return  React.createElement(Col, {mdOffset: 3, md: 6}, 
+    			React.createElement(Well, {className: "no_results"}, 
+    			React.createElement(Col, {sm: 4, md: 4}, 
+    				React.createElement("img", {className: "no_response_img", src: "images/No_result.jpg"})
+    			), 
+    			React.createElement(Col, {sm: 12, md: 8}, React.createElement("h2", {className: "no_response_txt"}, "No results found"))
+    			)
+    			)
+    		
+    	}
+    	//when the user resets
+    	if(this.props.items[0].reset){
+    	
+    			return React.createElement("div", null)
+    	
+    	}
       return   (
       			React.createElement("div", {className: "records"}, 
 				   this.props.items.map(function (data,i) {
@@ -38677,7 +38701,7 @@ var Record =  require('../record/main');
   });
 
 
-},{"../record/main":265,"jquery":3,"react":261}],267:[function(require,module,exports){
+},{"../record/main":265,"jquery":3,"react":261,"react-bootstrap":56}],267:[function(require,module,exports){
 /** @jsx React.DOM */
 var React = require('react');
 var $ = require('jquery');
@@ -38702,6 +38726,7 @@ var Button = require('react-bootstrap').Button;
     clearInput: function(){
       this.returnInput().val("");
       this.props.updateFilter("");
+      this.returnInput().focus();
     },
     render:function(){
 
