@@ -38509,12 +38509,22 @@ var Button = require('react-bootstrap').Button;
 			}
 		}
 		 this.renderRecords(response);
-		 if(jqXHR){
+		 this.releaseRequest(jqXHR);
+		 
+ 	},
+ 	releaseRequest: function(jqXHR){
+ 		if(jqXHR){
 			 var index = this.requestPool.indexOf(jqXHR);
 			 if (index > -1) {
 				this.requestPool.splice(index, 1);
 			 }
 		}
+
+ 	},
+ 	networkErrorHandler: function(xhr){
+ 		 if (xhr && xhr.statusText !== 'abort') {
+ 			alert("Network Error");
+ 		}
  	},
  	handleFilterUpdate: function(value){
  		var that = this;
@@ -38526,9 +38536,10 @@ var Button = require('react-bootstrap').Button;
  				if (that.IsMSIE && window.XDomainRequest) {
  					 	var xdr = new XDomainRequest();
 			            xdr.open("get", yql);
+			            //xdr.onerror = that.networkErrorHandler;
 			            xdr.onload = function() {
  
-			            	that.parseResponse(JSON.parse(xdr.responseText),"status",xdr)
+			            	that.parseResponse(JSON.parse(xdr.responseText),"success",xdr)
 			              
 			            };
 			            that.requestPool.push(xdr);
@@ -38540,10 +38551,10 @@ var Button = require('react-bootstrap').Button;
 			 		  		dataType : 'json',
 			 		  		method:"GET",
 			 		 		url:yql,
-		 		 		beforeSend: function(jqXHR) {
+		 		 			beforeSend: function(jqXHR) {
         					that.requestPool.push(jqXHR);
     					}
-			      		}).done(that.parseResponse);
+			      		}).done(that.parseResponse).fail(that.networkErrorHandler);
 
         			}
 				
