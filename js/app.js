@@ -38624,15 +38624,19 @@ var Col = require('react-bootstrap').Col;
     var content = this.props.datum.Result || "";
     var title="",text="",href = this.props.datum.FirstURL || ""
     if(content){
-        var start = content.indexOf(">");
-        var end = content.lastIndexOf(">");
-        if(start > -1 && end >-1){
+        var start = content.indexOf(">")+1;
+        //to get the second occurence
+        var end = start+content.substring(start).indexOf(">");
+        if(start > 0 && end >0){
           // subtracting 3 to remove the anchor tag markup
-          title = content.substring(++start,end-3);
+          title = content.substring(start,end-3);
           text =  content.substring(++end);
           //do not render the DOM, if there is no description
           if(!text){
-            return React.createElement("div", null);
+            if(!this.props.datum.Text){
+              return React.createElement("div", null);
+            }
+            text = this.props.datum.Text;
           }
         }
     }
@@ -38647,7 +38651,7 @@ var Col = require('react-bootstrap').Col;
                 React.createElement(Well, {className: "tile__body"}, 
             			React.createElement(Col, {sm: 8, md: 8}, 
                   React.createElement("a", {href: href, target: "blank"}, React.createElement("h2", {className: "tile__title"}, title)), 
-      				    React.createElement("div", {className: "tile__content"}, text)
+      				    React.createElement("div", {className: "tile__content", dangerouslySetInnerHTML: {__html: text}})
                   ), 
                   React.createElement(Col, {sm: 4, md: 4, className: "thumbnail"}, 
                   React.createElement("img", {src: icon, className: "tile__icon"})
